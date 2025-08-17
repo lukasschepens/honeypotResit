@@ -258,3 +258,28 @@ The honeypot includes fake administrative interfaces that look real but are desi
 ## Notes
 
 This project was built for the Web Security course resit evaluation. It demonstrates understanding of web security concepts, API development, and honeypot systems. The code includes comments explaining security implementations and design decisions.
+
+
+
+
+
+# All the config files for the nginx webserver and the elk are also uploaded in this repo so I won't copy them here.
+
+## Screenshot of my kibana dashboard
+
+<img width="1960" height="1059" alt="image" src="https://github.com/user-attachments/assets/97b3176c-ffe3-465d-a8c1-9fddb8736992" />
+
+
+Here you can see some visualizations for the webserver
+
+1st of you have a count of all the records. next to that is a bar chart that shows the top 5 ip's with the most records (there are only 3 bars because I only created records with 3 ip addresses).
+After that there's a pie chart of what gets accessed the most on the webpage, here you can see that the second most accessed thing is the /favicon.ico. 
+Then after that there's another barchart that shows which http request gets requested the most. Next to that one is a pie chart that shows the ip addresses that visited the webserver.
+Then there's a line chart that shows when the most records where made. Then a bar chart with the http response codes.
+Last but not least theres a table that shows which ip address requested the honeypot parts of the website.
+
+# Then the final part of the task... The log file
+
+In the log file that you guys gave me we had to search for an attack. Pretty quickly you could notice that there was a sql injection. Why you may ask.
+Because when I enter this command grep -c 'sqlmap' ~/Downloads/access.log (this counts how many times sqlmap apears in this log file) it says 142.
+So that means that 142 of the requests where made by sqlmap, which is a popular pentesting tool/
