@@ -198,12 +198,12 @@ The honeypot includes fake administrative interfaces that look real but are desi
 - Check nginx configuration
 - Verify nginx is running: `sudo systemctl status nginx`
 
-**Database permission errors:**
-- Fix ownership: `sudo chown -R $USER:$USER /var/www/honeypotResit/backend/`
-
 **API calls fail:**
 - Check if backend is running: `curl http://localhost:3001/api/health`
 - Verify nginx proxy is working
+
+**You get 500 codes whith post request**
+- Make sure the database isn't readonly (took waaaay to long to figure this out)
 
 ## Testing the Setup
 
@@ -215,10 +215,7 @@ The honeypot includes fake administrative interfaces that look real but are desi
 
 ## Notes
 
-This project was built for the Web Security course resit evaluation. It demonstrates understanding of web security concepts, API development, and honeypot systems. The code includes comments explaining security implementations and design decisions.
-
-
-
+This project was built for the honeypot course resit exam. 
 
 
 # All the config files for the nginx webserver and the elk are also uploaded in this repo so I won't copy them here.
