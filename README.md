@@ -66,49 +66,7 @@ npm run build
 
 Create `/etc/nginx/conf.d/default.conf`:
 
-```nginx
-server {
-    listen 80;
-    server_name your-domain-name;
-    
-    # API proxy to backend
-    location /api/ {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header Authorization $http_authorization;
-        proxy_set_header Content-Type $content_type;
-        proxy_set_header Content-Length $content_length;
-        proxy_pass_request_headers on;
-        proxy_pass_request_body on;
-        proxy_cache_bypass $http_upgrade;
-        
-        proxy_connect_timeout 60s;
-        proxy_send_timeout 60s;
-        proxy_read_timeout 60s;
-    }
-    
-    # Frontend static files
-    location / {
-        root /var/www/honeypotResit/frontend/dist;
-        try_files $uri $uri/ /index.html;
-        index index.html;
-    }
-    
-    # Security headers
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    
-    client_max_body_size 10M;
-}
-```
+For the default.conf look at the file uploaded in this repo.
 
 Test and reload nginx:
 ```bash
