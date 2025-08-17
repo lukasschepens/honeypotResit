@@ -1,230 +1,78 @@
-# Web Security Honeypot Environment
+# Web Security Honeypot Project
 
 ## Overview
 
-This project implements a comprehensive web security environment featuring a full-stack application with an integrated honeypot system for educational and security demonstration purposes. The system is designed to detect, log, and analyze potential security threats while providing a functional web platform.
+This is my implementation for the Web Security resit evaluation. It's a web application with a honeypot system that includes all the required endpoints and security features.
 
-## 🏗️ Architecture
+## What this project includes
 
-### Backend (Node.js/Express)
-- **Framework**: Express.js with comprehensive security middleware
-- **Database**: SQLite for simplicity and portability
-- **Authentication**: JWT-based authentication with bcrypt password hashing
-- **Security**: Helmet, CORS, rate limiting, input validation
+- Node.js backend API with 7 endpoints (Login, Post, Comment, Edit, Account, Upload, WebHoneypot)
+- React frontend for the user interface  
+- SQLite database for storing data
+- JWT authentication system
+- Honeypot system with fake admin interfaces
 
-### Frontend (React/Vite)
-- **Framework**: React 18 with modern hooks and functional components
-- **Routing**: React Router for client-side routing
-- **Styling**: Tailwind CSS for responsive design
-- **State Management**: React Query for server state management
-- **Forms**: React Hook Form with Yup validation
-
-### Honeypot System
-- **Purpose**: Detect and log malicious activities
-- **Coverage**: Fake administrative interfaces and endpoints
-- **Logging**: Comprehensive request logging with IP tracking
-- **Analysis**: Real-time threat detection and behavioral analysis
-
-## 🚀 Quick Start
+## Setup Instructions
 
 ### Prerequisites
-- Node.js 18+ and npm
-- Git
 
-### Installation
+You need these installed on your Debian server:
+- Node.js (version 18 or newer)
+- npm
+- nginx
+- git
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd honeypot
-   ```
+### 1. Install Node.js and npm
 
-2. **Backend Setup**
-   ```bash
-   cd backend
-   npm install
-   cp .env.example .env  # Configure environment variables
-   npm run dev
-   ```
-
-3. **Frontend Setup**
-   ```bash
-   cd ../frontend
-   npm install
-   npm run dev
-   ```
-
-4. **Access the Application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:3001
-   - Honeypot Demo: http://localhost:3000/honeypot
-
-### Default Accounts
-- **Admin**: username: `admin`, password: `admin123`
-- **Demo User**: username: `demo`, password: `demo123`
-
-## 📋 API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `GET /api/auth/me` - Get current user
-- `POST /api/auth/logout` - User logout
-
-### Posts Management
-- `GET /api/posts` - List all posts (with pagination)
-- `GET /api/posts/:id` - Get specific post with comments
-- `POST /api/posts` - Create new post (authenticated)
-- `DELETE /api/posts/:id` - Delete post (owner/admin only)
-
-### Comments System
-- `GET /api/comments/:postId` - Get comments for post
-- `POST /api/comments` - Create comment (authenticated)
-- `DELETE /api/comments/:id` - Delete comment (owner/admin only)
-
-### Content Editing
-- `PUT /api/edit/post/:id` - Edit post (owner/admin only)
-- `PUT /api/edit/comment/:id` - Edit comment (owner/admin only)
-- `PUT /api/edit/account` - Update account information
-
-### Account Management
-- `GET /api/account` - Get account details and statistics
-- `GET /api/account/posts` - Get user's posts
-- `GET /api/account/comments` - Get user's comments
-- `GET /api/account/files` - Get user's uploaded files
-- `DELETE /api/account` - Delete account (with password confirmation)
-
-### File Upload System
-- `POST /api/upload` - Upload files (authenticated, max 5MB, 5 files)
-- `GET /api/upload` - List user's uploaded files
-- `GET /api/upload/:id` - Get specific file information
-- `DELETE /api/upload/:id` - Delete uploaded file
-- `GET /api/upload/stats/overview` - Get upload statistics
-
-### Honeypot Endpoints (🍯 Security Demo)
-- `GET /api/honeypot` - Main honeypot interface
-- `GET /api/honeypot/admin` - Fake admin dashboard
-- `POST /api/honeypot/admin/login` - Fake admin login
-- `GET /api/honeypot/config` - Fake system configuration
-- `GET /api/honeypot/database` - Fake database management
-- `GET /api/honeypot/users` - Fake user management
-- `GET /api/honeypot/files` - Fake file management
-- `GET /api/honeypot/backup` - Fake backup system
-- `GET /api/honeypot/logs` - Fake log viewer
-
-## 🛡️ Security Features
-
-### Authentication & Authorization
-- **JWT Tokens**: Secure, stateless authentication
-- **Password Hashing**: bcrypt with salt rounds of 12
-- **Role-Based Access**: Admin and user roles with appropriate permissions
-- **Session Management**: Token expiration and refresh mechanisms
-- **Input Validation**: Comprehensive validation using express-validator and Yup
-
-### Protection Mechanisms
-- **Rate Limiting**: 100 requests per 15-minute window per IP
-- **CORS**: Configured for development and production environments
-- **Helmet**: Security headers (CSP, HSTS, X-Frame-Options, etc.)
-- **File Upload Security**: Type validation, size limits, dangerous extension blocking
-- **SQL Injection Prevention**: Parameterized queries with SQLite
-- **XSS Protection**: Input sanitization and output encoding
-
-### Monitoring & Logging
-- **Request Logging**: All requests logged with timestamp, IP, user agent
-- **Honeypot Logging**: Specialized logging for honeypot interactions
-- **Error Handling**: Comprehensive error logging and user-friendly error responses
-- **Security Events**: Failed login attempts, suspicious activities logged
-
-## 🍯 Honeypot System
-
-### Purpose
-The honeypot system is designed to:
-- **Detect Threats**: Identify potential attackers and automated tools
-- **Collect Intelligence**: Gather information about attack patterns and techniques
-- **Distract Attackers**: Draw attention away from real administrative interfaces
-- **Educational Value**: Demonstrate honeypot concepts and implementation
-
-### Implementation Details
-- **Realistic Interfaces**: Convincing fake administrative panels
-- **Believable Responses**: Authentic-looking error messages and data
-- **Comprehensive Logging**: Every interaction logged with full context
-- **Behavioral Analysis**: Pattern recognition for identifying attack types
-- **Real-time Monitoring**: Immediate alerting on suspicious activities
-
-### Logged Information
-- IP address and geolocation
-- User agent and browser fingerprinting
-- Request headers and payload
-- Access patterns and frequency
-- Attempted credentials and injection payloads
-
-## 🔧 Configuration
-
-### Environment Variables (.env)
-```env
-# Server Configuration
-NODE_ENV=development
-PORT=3001
-JWT_SECRET=your-super-secret-jwt-key-change-in-production
-DATABASE_PATH=./database.sqlite
-
-# File Upload
-UPLOAD_DIR=./uploads
-MAX_FILE_SIZE=5242880
-
-# Security Settings
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-SESSION_TIMEOUT=3600000
-
-# Honeypot Settings
-HONEYPOT_ENABLED=true
-HONEYPOT_LOG_LEVEL=info
-```
-
-### Database Schema
-The application uses SQLite with the following tables:
-- **users**: User accounts and authentication
-- **posts**: Blog posts and content
-- **comments**: Comments on posts
-- **files**: Uploaded file metadata
-- **honeypot_logs**: Security event logging
-- **sessions**: Active user sessions
-
-## 🚀 Deployment
-
-### Development
 ```bash
-# Backend
-cd backend && npm run dev
+# Update system
+sudo apt update
 
-# Frontend
-cd frontend && npm run dev
+# Install Node.js and npm
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Check versions
+node --version
+npm --version
 ```
 
-### Production Build
+### 2. Install nginx
+
 ```bash
-# Frontend build
-cd frontend && npm run build
-
-# Backend production
-cd backend && NODE_ENV=production npm start
+sudo apt install nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
 ```
 
-### NGINX Configuration (Production)
+### 3. Clone and setup the project
+
+```bash
+# Clone to web directory
+cd /var/www
+sudo git clone <your-repo-url> honeypotResit
+sudo chown -R $USER:$USER /var/www/honeypotResit
+
+# Setup backend
+cd /var/www/honeypotResit/backend
+npm install
+
+# Setup frontend  
+cd /var/www/honeypotResit/frontend
+npm install
+npm run build
+```
+### 4. Configure nginx
+
+Create `/etc/nginx/conf.d/default.conf`:
+
 ```nginx
 server {
     listen 80;
-    server_name your-domain.com;
-
-    # Frontend
-    location / {
-        root /path/to/frontend/dist;
-        try_files $uri $uri/ /index.html;
-    }
-
-    # API
-    location /api {
+    server_name your-domain-name;
+    
+    # API proxy to backend
+    location /api/ {
         proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -233,123 +81,180 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Authorization $http_authorization;
+        proxy_set_header Content-Type $content_type;
+        proxy_set_header Content-Length $content_length;
+        proxy_pass_request_headers on;
+        proxy_pass_request_body on;
         proxy_cache_bypass $http_upgrade;
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
     }
+    
+    # Frontend static files
+    location / {
+        root /var/www/honeypotResit/frontend/dist;
+        try_files $uri $uri/ /index.html;
+        index index.html;
+    }
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    
+    client_max_body_size 10M;
 }
 ```
 
-## 📊 Monitoring & Analytics
+Test and reload nginx:
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
 
-### Log Files
-- `backend/logs/access.log` - General access logs
-- `backend/logs/honeypot.log` - Honeypot-specific logs
-- `backend/logs/error.log` - Application errors
+### 5. Setup PM2 for backend process management
 
-### Metrics Collected
-- Request frequency and patterns
-- Failed authentication attempts
-- File upload statistics
-- Honeypot interaction analytics
-- User behavior patterns
+```bash
+# Install PM2
+sudo npm install -g pm2
 
-## 🧪 Testing
+# Start backend
+cd /var/www/honeypotResit/backend
+pm2 start server.js --name "honeypot-api"
 
-### Security Testing
-1. **Authentication Testing**
-   - Test JWT token validation
-   - Verify password hashing
-   - Check session management
+# Save PM2 config
+pm2 save
 
-2. **Authorization Testing**
-   - Role-based access control
-   - Resource ownership validation
-   - Admin privilege escalation
+# Setup auto-start on boot
+pm2 startup
+# Follow the command it gives you
+```
 
-3. **Input Validation Testing**
-   - SQL injection attempts
-   - XSS payload testing
-   - File upload security
+### 6. Setup hosts file (for local testing)
 
-4. **Honeypot Testing**
-   - Access honeypot endpoints
-   - Monitor logging functionality
-   - Verify threat detection
+On your host computer, edit the hosts file:
 
-### Penetration Testing Scenarios
-1. **Brute Force Attacks**: Test rate limiting and account lockout
-2. **SQL Injection**: Attempt database manipulation
-3. **File Upload Attacks**: Try to upload malicious files
-4. **Admin Panel Discovery**: Test honeypot effectiveness
-5. **Session Hijacking**: Test JWT security
+**Windows**: `C:\Windows\System32\drivers\etc\hosts`
+**Linux/Mac**: `/etc/hosts`
 
-## 🎓 Educational Value
+Add this line:
+```
+YOUR_SERVER_IP    your-domain-name
+```
 
-### Learning Objectives
-- **Web Security**: Understand common vulnerabilities and protections
-- **Honeypot Technology**: Learn threat detection and deception techniques
-- **Secure Development**: Implement security best practices
-- **Monitoring**: Set up comprehensive logging and alerting
+## Project Structure
 
-### Security Concepts Demonstrated
-- Authentication and authorization mechanisms
-- Input validation and sanitization
-- Secure file handling
-- Rate limiting and DoS protection
-- Logging and monitoring
-- Honeypot design and implementation
+```
+honeypotResit/
+├── backend/           # Node.js API server
+│   ├── routes/       # API endpoints
+│   ├── middleware/   # Authentication, logging
+│   ├── database/     # SQLite database setup
+│   ├── server.js     # Main server file
+│   └── package.json
+├── frontend/          # React application
+│   ├── src/          # React components and pages
+│   ├── dist/         # Built frontend (after npm run build)
+│   └── package.json
+└── README.md
+```
 
-## 📝 Development Notes
+## API Endpoints
 
-### Security Considerations
-- Never use default credentials in production
-- Regularly update dependencies for security patches
-- Implement proper SSL/TLS in production
-- Monitor logs for suspicious activities
-- Regular security audits and penetration testing
+All endpoints return JSON only (no HTML).
 
-### Performance Optimization
-- Database indexing for large datasets
-- Image optimization for uploads
-- CDN implementation for static assets
-- Caching strategies for API responses
+### 1. Login - `/api/auth/login`
+- POST request
+- Login with username/password
+- Returns JWT token
 
-### Scalability
-- Database migration to PostgreSQL for production
-- Redis for session management at scale
-- Load balancing for multiple instances
-- Microservices architecture for larger deployments
+### 2. Post - `/api/posts`  
+- GET: List all posts
+- POST: Create new post (requires authentication)
 
-## 🤝 Contributing
+### 3. Comment - `/api/comments`
+- GET `/api/comments/:postId`: Get comments for a post
+- POST: Create comment (requires authentication)
 
-### Development Workflow
-1. Fork the repository
-2. Create a feature branch
-3. Implement changes with tests
-4. Submit pull request with detailed description
+### 4. Edit - `/api/edit/account`
+- PUT: Update account info (requires authentication)
 
-### Code Standards
-- ESLint configuration for consistent code style
-- Comprehensive error handling
-- Input validation on all endpoints
-- Documentation for new features
+### 5. Account - `/api/account`
+- GET: Show user account info and stats (requires authentication)
 
-## 📞 Support
+### 6. Upload - `/api/upload`
+- POST: Upload file (requires authentication)
+- GET: List user's files
 
-For questions, issues, or security concerns:
-- Create an issue in the repository
-- Review logs for troubleshooting
-- Check security logs for honeypot interactions
+### 7. WebHoneypot - `/api/honeypot/*`
+Multiple fake admin endpoints:
+- `/api/honeypot` - Main admin interface
+- `/api/honeypot/admin` - Admin dashboard  
+- `/api/honeypot/config` - Fake config access
+- `/api/honeypot/database` - Fake database access
+- And more...
 
-## ⚠️ Disclaimer
+## Default Login Credentials
 
-This honeypot system is designed for educational purposes and security research. Do not deploy in production environments without proper security review and monitoring infrastructure. The developers are not responsible for any misuse or security incidents resulting from deployment of this system.
+**Admin user:**
+- Username: `admin`  
+- Password: `admin123`
 
-## 📄 License
+**Demo user:**
+- Username: `demo`
+- Password: `demo123`
 
-This project is created for educational purposes as part of the Web Security course evaluation. All code and documentation are provided as-is for learning and demonstration purposes.
+## Security Features
 
----
+- JWT authentication for protected endpoints
+- Password hashing with bcrypt
+- Input validation 
+- Rate limiting (100 requests per 15 minutes)
+- Security headers
+- File upload restrictions
+- SQL injection protection
 
-**Last Updated**: August 15, 2025  
-**Version**: 1.0.0  
-**Environment**: Development/Educational
+## Honeypot System
+
+The honeypot includes fake administrative interfaces that look real but are designed to attract attackers. All interactions with honeypot endpoints are logged. The system includes:
+
+- Fake admin login pages
+- Fake database access
+- Fake configuration files
+- Fake user management
+- Realistic error messages
+- Fake sensitive data (API keys, etc.)
+
+## Common Issues and Solutions
+
+**Backend won't start:**
+- Check if port 3001 is free: `sudo netstat -tulpn | grep :3001`
+- Check PM2 logs: `pm2 logs honeypot-api`
+
+**Frontend shows 404:**
+- Make sure you ran `npm run build` in frontend directory
+- Check nginx configuration
+- Verify nginx is running: `sudo systemctl status nginx`
+
+**Database permission errors:**
+- Fix ownership: `sudo chown -R $USER:$USER /var/www/honeypotResit/backend/`
+
+**API calls fail:**
+- Check if backend is running: `curl http://localhost:3001/api/health`
+- Verify nginx proxy is working
+
+## Testing the Setup
+
+1. Visit your domain in browser
+2. Register/login with demo account
+3. Try creating posts and comments
+4. Test file upload
+5. Check honeypot endpoints like `/api/honeypot/admin`
+
+## Notes
+
+This project was built for the Web Security course resit evaluation. It demonstrates understanding of web security concepts, API development, and honeypot systems. The code includes comments explaining security implementations and design decisions.
